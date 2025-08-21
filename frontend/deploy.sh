@@ -9,14 +9,28 @@ fi
 
 INDEX_PATH="index.html"
 SCRIPT_PATH="dist/index.js"
+IMAGE_PATH="img/man.png"
 
 # 5. Upload index.html
 echo "📰 Uploading $INDEX_PATH to s3://$FRONTEND_BUCKET/index.html"
 
-aws s3 cp "$INDEX_PATH" "s3://$FRONTEND_BUCKET/index.html" \
-  --content-type "text/html"
+aws s3api put-object \
+  --bucket "$FRONTEND_BUCKET" \
+  --key "dist/index.js" \
+  --body "$SCRIPT_PATH" \
+  --content-type "application/javascript" \
+  --content-md5 "$(openssl md5 -binary "$SCRIPT_PATH" | base64)"
 
-  aws s3 cp "$SCRIPT_PATH" "s3://$FRONTEND_BUCKET/dist/index.js" \
-  --content-type "text/javascript"
+aws s3api put-object \
+  --bucket "$FRONTEND_BUCKET" \
+  --key "index.html" \
+  --body "$INDEX_PATH" \
+  --content-type "text/html" \
+  --content-md5 "$(openssl md5 -binary "$INDEX_PATH" | base64)"
 
-echo "Upload complete."
+aws s3api put-object \
+  --bucket "$FRONTEND_BUCKET" \
+  --key "img/man.png" \
+  --body "$IMAGE_PATH" \
+  --content-type "image/png" \
+  --content-md5 "$(openssl md5 -binary "$IMAGE_PATH" | base64)"
