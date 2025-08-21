@@ -3,27 +3,170 @@
         <script src="dist/index.js"></script>
         <title>My website</title>
         <style>
+            body {
+                background: linear-gradient(120deg, #f0f4ff 0%, #e0e7ff 100%);
+                font-family: 'Segoe UI', Baskerville, Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                min-height: 100vh;
+                color: #222;
+            }
+            .container {
+                max-width: 700px;
+                margin: 40px auto;
+                background: #fff;
+                border-radius: 18px;
+                box-shadow: 0 4px 24px rgba(60,60,120,0.10);
+                padding: 40px 32px 32px 32px;
+            }
             h1 {
-                color: blue;
-                font-size: 48px; /* Increased from 36px */
-                font-family: Baskerville, serif;
+                color: #3a3a8a;
+                font-size: 2.8rem;
+                font-family: 'Segoe UI', Baskerville, serif;
+                margin-bottom: 16px;
             }
             p {
-                color: rgb(88, 10, 232);
+                color: #5a3ae6;
                 font-style: italic;
-                font-family: Baskerville, serif;
-                font-size: 28px; /* Added larger font size for paragraphs */
+                font-family: 'Segoe UI', Baskerville, serif;
+                font-size: 1.35rem;
+                margin-top: 0.5em;
+                margin-bottom: 1em;
+            }
+            a {
+                color: #3a3a8a;
+                text-decoration: none;
+                font-weight: 500;
+                margin-right: 18px;
+                transition: color 0.2s;
+                font-size: 1.1rem;
+            }
+            a:hover {
+                color: #5a3ae6;
+                text-decoration: underline;
+            }
+            #quiz-container {
+                margin-top: 40px;
+                font-size: 1.25rem;
+                background: #f6f7ff;
+                border-radius: 12px;
+                box-shadow: 0 2px 8px rgba(60,60,120,0.06);
+                padding: 28px 24px 20px 24px;
+                margin-bottom: 24px;
+            }
+            #quiz-question {
+                margin-bottom: 14px;
+                font-weight: 600;
+                font-size: 1.3rem;
+            }
+            #quiz-answer {
+                padding: 8px 12px;
+                font-size: 1.1rem;
+                border: 1px solid #b3b3e6;
+                border-radius: 6px;
+                margin-right: 10px;
+                outline: none;
+                transition: border 0.2s;
+            }
+            #quiz-answer:focus {
+                border: 1.5px solid #5a3ae6;
+            }
+            #quiz-result {
+                margin-top: 12px;
+                font-weight: bold;
+                font-size: 1.1rem;
+                min-height: 1.2em;
+            }
+            button, .modern-btn {
+                background: linear-gradient(90deg, #5a3ae6 0%, #3a3a8a 100%);
+                color: #fff;
+                border: none;
+                border-radius: 6px;
+                padding: 10px 22px;
+                font-size: 1.1rem;
+                font-family: inherit;
+                cursor: pointer;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                transition: background 0.2s, box-shadow 0.2s;
+                box-shadow: 0 2px 8px rgba(60,60,120,0.08);
+            }
+            button:hover, .modern-btn:hover {
+                background: linear-gradient(90deg, #3a3a8a 0%, #5a3ae6 100%);
+            }
+            .img-row {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                margin: 18px 0;
+            }
+            .img-row img {
+                max-width: 60px;
+                border-radius: 10px;
+                box-shadow: 0 2px 8px rgba(60,60,120,0.08);
+            }
+            @media (max-width: 700px) {
+                .container {
+                    padding: 18px 6vw 18px 6vw;
+                }
+                h1 {
+                    font-size: 2rem;
+                }
             }
         </style>
+        <script>
+            // Easy Maths Quiz Logic
+            let num1, num2, answer;
+
+            function generateQuestion() {
+                num1 = Math.floor(Math.random() * 10) + 1;
+                num2 = Math.floor(Math.random() * 10) + 1;
+                answer = num1 + num2;
+                document.getElementById('quiz-question').textContent = `What is ${num1} + ${num2}?`;
+                document.getElementById('quiz-answer').value = '';
+                document.getElementById('quiz-result').textContent = '';
+            }
+
+            function checkAnswer() {
+                const userAnswer = parseInt(document.getElementById('quiz-answer').value, 10);
+                if (userAnswer === answer) {
+                    document.getElementById('quiz-result').textContent = 'Correct!';
+                } else {
+                    document.getElementById('quiz-result').textContent = `Uh oh, you got it wrong. The answer was ${answer}.`;
+                }
+                setTimeout(generateQuestion, 1500);
+            }
+
+            window.onload = function() {
+                generateQuestion();
+            };
+        </script>
     </head>
     <body>
-        <h1>This is Oliver's website</h1>
-        <p>It has random stuff on it</p>
-        
-        <p>
-            This is man
-            <img src="img/man.png?v=1" alt="Man image" style="vertical-align: middle; margin-left: 10px;">
-        </p>
-        <button onClick="doStuff()">You'd better not click this button</button>
+        <div class="container">
+            <h1>This is Oliver's website</h1>
+            <p>It has random stuff on it</p>
+            <h1>MORE RANDOM STUFF</h1>
+            <p>
+                now time for you to play scratch<br>
+                <a href="https://scratch.mit.edu/search/projects?q=geometry%20dash" target="_blank">Search for Geometry Dash on Scratch</a>
+            </p>
+            <a href="about.html">Click for next page.</a>
+            <div class="img-row">
+                <span>This is man</span>
+                <img src="img/man.png?v=1" alt="Man image">
+            </div>
+            <button class="modern-btn" onClick="doStuff()">You'd better not click this button</button>
+
+            <div id="quiz-container">
+                <div id="quiz-question"></div>
+                <form onsubmit="checkAnswer(); return false;">
+                    <input type="number" id="quiz-answer" autocomplete="off" />
+                    <button type="submit" class="modern-btn">Submit</button>
+                </form>
+                <div id="quiz-result"></div>
+            </div>
+            <p>Easy math quiz.</p>
+        </div>
     </body>
 </html>

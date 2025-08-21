@@ -23,6 +23,13 @@ aws s3api put-object \
 
 aws s3api put-object \
   --bucket "$FRONTEND_BUCKET" \
+  --key "about.html" \
+  --body "about.html" \
+  --content-type "text/html" \
+  --content-md5 "$(openssl md5 -binary "about.html" | base64)"
+
+aws s3api put-object \
+  --bucket "$FRONTEND_BUCKET" \
   --key "index.html" \
   --body "$INDEX_PATH" \
   --content-type "text/html" \
