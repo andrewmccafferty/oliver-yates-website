@@ -41,3 +41,10 @@ aws s3api put-object \
   --body "$IMAGE_PATH" \
   --content-type "image/png" \
   --content-md5 "$(openssl md5 -binary "$IMAGE_PATH" | base64)"
+
+  aws s3api put-object \
+  --bucket "$FRONTEND_BUCKET" \
+  --key favicon.ico \
+  --body "favicon.ico" \
+  --content-type "image/x-icon" \
+  --content-md5 "$(openssl md5 -binary "img/favicon.ico" | base64)"
